@@ -35,7 +35,7 @@
     module.exports = bindClick;
   }
   else {
-    if ( typeof define === 'function' && define.amd)  {
+    if ( typeof define === 'function' && define.amd )  {
       define([], function() {
         return bindClick;
       });
