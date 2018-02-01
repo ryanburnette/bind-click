@@ -16,3 +16,5 @@ var bindClick = require('bind-click');
 var element = document.querySelector('.thing');
 bindClick(element,function(event) { /* do some stuff */ });
 ```
+
+Works with require, AMD, or right on the window.
