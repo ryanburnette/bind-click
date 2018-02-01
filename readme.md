@@ -13,5 +13,6 @@ What other issues could be solved by this library? Please contribute.
 
 ```javascript
 var bindClick = require('bind-click');
-bindClick(document.querySelector('.button'),function myBindClickHandler (event,element) { /* do some stuff */ });
+var element = document.querySelector('.thing');
+bindClick(element,function(event) { /* do some stuff */ });
 ```
