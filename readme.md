@@ -23,3 +23,8 @@ click(document.querySelector('.button'),e => console.log(e))
 Use `document.querySelector` or `document.querySelectorAll`.
 
 If you're using jQuery, that's fine. Use `$('.el').get(0)`.
+
+## Requirements
+
+- Requires the [Modernizr touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with `setClasses` enabled.
+- Requires [`NodeList.prototype.forEach()`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach)
