@@ -24,6 +24,10 @@ Use `document.querySelector` or `document.querySelectorAll`.
 
 If you're using jQuery, that's fine. Use `$('.el').get(0)`.
 
+### `callback`
+
+The function to call when the event fires. Receives the event as an argument.
+
 ## Requirements
 
 - Requires the [Modernizr touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with `setClasses` enabled.
