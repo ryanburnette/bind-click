@@ -12,9 +12,14 @@ What other issues could be solved by this library? Please contribute.
 ## Usage
 
 ```javascript
-var bindClick = require('bind-click');
-var element = document.querySelector('.thing');
-bindClick(element,function(event) { /* do some stuff */ });
+import click from 'bind-click'
+click(document.querySelector('.button'),e => console.log(e))
 ```
 
-Works with require, AMD, or right on the window.
+## API
+
+### `selector`
+
+Use `document.querySelector` or `document.querySelectorAll`.
+
+If you're using jQuery, that's fine. Use `$('.el').get(0)`.
