@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:9.8.0
     working_directory: ~/repo
     steps:
-      - run: install-dependencies
+      - run: .circleci/install-dependencies
       - checkout
       - restore_cache:
           keys:
