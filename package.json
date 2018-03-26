@@ -11,7 +11,8 @@
   },
   "homepage": "https://github.com/ryanburnette/bind-click",
   "dependencies": {
-    "add-css": "^1.0.0"
+    "add-css": "^1.0.0",
+    "live-dom": "^1.6.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -32,7 +33,7 @@
     "build": "npm run webpack:dist:build && npm run webpack:dist:min:build",
     "prepare": "npm run build",
     "test:prepare": "npm run webpack:dist:build && cp dist/bind-click.js test/bind-click.js",
-    "test": "mocha test/index.js --recursive test",
+    "test": "mocha test/index.js",
     "server": "http-server test/"
   }
 }

@@ -6,9 +6,12 @@
 <body>
   <h1>Page Title</h1>
   <span class="test1">test</span>
+  <span class="nodelist-test test10">test</span>
+  <span class="nodelist-test test11">test</span>
   <script src="bind-click.js"></script>
   <script>
-    bindClick('.test1',function (e) {
+    var test1 = document.querySelector('.test1')
+    bindClick(test1,function (e) {
       e.target.classList.add('clicked')
     })
 
@@ -16,9 +19,15 @@
       e.target.classList.add('clicked')
     })
 
-    var test2 = document.createElement('span')
-    test2.classList.add('test2')
-    document.querySelector('body').appendChild(test2)
+    bindClick(document.querySelectorAll('.nodelist-test'),function (e) {
+      e.target.classList.add('clicked')
+    })
+
+    setTimeout(function () {
+      var test2 = document.createElement('span')
+      test2.classList.add('test2')
+      document.querySelector('body').appendChild(test2)
+    },500)
   </script>
 </body>
 </html>

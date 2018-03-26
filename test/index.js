@@ -5,7 +5,6 @@ const puppeteer = require('puppeteer')
 const _ = require('lodash')
 const describe = mocha.describe
 const expect = chai.expect
-const bindClick = require('../dist/bind-click.js')
 const globalVariables = _.pick(global, ['browser', 'expect'])
 
 before (function (done) {
@@ -30,10 +29,6 @@ after (function () {
 })
 
 describe('sanity check',function () {
-  it('should be a function',function () {
-    expect(bindClick).to.be.a('function')
-  })
-
   it('should work', function (done) {
     browser
       .version()
@@ -62,17 +57,38 @@ describe('bindClick()',function () {
     })
   })
 
-  it('invokes the callback when the element is clicked', async function () {
-    let span = await page.$('.test1')
-    await span.click()
-    let list = await page.evaluate('document.querySelector(".test1").classList')
-    list = _.map(list,function (v,k) {
-      return v
+  context('node',function () {
+    it('invokes the callback when the element is clicked', async function () {
+      let span = await page.$('.test1')
+      await span.click()
+      let list = await page.evaluate('document.querySelector(".test1").classList')
+      list = _.map(list,function (v,k) {
+        return v
+      })
+      expect(list).to.include('clicked')
     })
-    expect(list).to.include('clicked')
   })
 
-  context('elements that are created later',function () {
+  context('nodelist',function () {
+    it('invokes the callback when the elements are clicked', async function () {
+      let span1 = await page.$('.test10')
+      let span2 = await page.$('.test11')
+      await span1.click()
+      await span2.click()
+      let list1 = await page.evaluate('document.querySelector(".test10").classList')
+      let list2 = await page.evaluate('document.querySelector(".test11").classList')
+      list1 = _.map(list1,function (v,k) {
+        return v
+      })
+      list2 = _.map(list2,function (v,k) {
+        return v
+      })
+      expect(list1).to.include('clicked')
+      expect(list2).to.include('clicked')
+    })
+  })
+
+  context('string/live',function () {
     it('works', async function () {
       let span = await page.$('.test2')
       await span.click()
