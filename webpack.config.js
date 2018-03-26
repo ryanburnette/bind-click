@@ -1,14 +1,25 @@
 /* jshint node: true, asi: true, esversion: 6 */
 const path = require('path')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const Uglify = require('uglifyjs-webpack-plugin')
+
+const plugins = []
+
+if ( process.env.MIN ) {
+  plugins.push(new Uglify())
+}
+
+let dotmin = ''
+
+if ( process.env.MIN ) {
+  dotmin = '.min'
+}
 
 module.exports = {
   entry: './lib/bind-click.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bind-click.js',
+    filename: 'bind-click'+dotmin+'.js',
     library: 'bindClick',
-    libraryExport: 'default',
     libraryTarget: 'umd'
   },
   module: {
@@ -21,7 +32,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new UglifyJSPlugin(),
-  ]
+  plugins
 }

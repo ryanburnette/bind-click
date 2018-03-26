@@ -1,6 +1,6 @@
 {
   "name": "bind-click",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "Bind the click event with a couple of common problems already solved.",
   "main": "dist/bind-click.js",
   "author": "Ryan Burnette",
@@ -11,19 +11,29 @@
   },
   "homepage": "https://github.com/ryanburnette/bind-click",
   "dependencies": {
-    "add-css": "^1.0.0"
+    "add-css": "^1.0.0",
+    "live-dom": "^1.6.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "nodemon": "^1.14.12",
-    "uglifyjs-webpack-plugin": "^1.2.3",
-    "webpack": "^3.11.0"
+    "chai": "^4.1.2",
+    "http-server": "^0.11.1",
+    "lodash": "^4.17.5",
+    "mocha": "^5.0.5",
+    "nodemon": "^1.14",
+    "puppeteer": "^1.2.0",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^3"
   },
   "scripts": {
-    "build": "node_modules/.bin/webpack -p",
-    "prepare": "npm run build"
+    "webpack:dist:build": "node_modules/.bin/webpack",
+    "webpack:dist:min:build": "MIN=TRUE node_modules/.bin/webpack -p",
+    "build": "npm run webpack:dist:build && npm run webpack:dist:min:build",
+    "prepare": "npm run build",
+    "test:prepare": "npm run webpack:dist:build && cp dist/bind-click.js test/bind-click.js",
+    "test": "mocha test/index.js --timeout 10000",
+    "server": "http-server test/"
   }
 }
