@@ -14,12 +14,10 @@ before (async function () {
   global.browser = await puppeteer.launch({
     headless: true,
     slowMo: 100,
-    timeout: 10000
+    timeout: 10000,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
-  server = cp.spawn('npm',['run','server'])
-  await timeout(function () {
-    console.log('done waiting for server to start')
-  },2000)
+  server = await cp.spawn('npm',['run','server'])
 })
 
 after (function () {
