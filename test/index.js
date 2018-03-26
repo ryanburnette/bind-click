@@ -25,6 +25,7 @@ after (function () {
   global.browser = globalVariables.browser
   global.expect = globalVariables.expect
   server.kill()
+  process.exit()
 })
 
 describe('sanity check',function () {
