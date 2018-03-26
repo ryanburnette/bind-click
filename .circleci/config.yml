@@ -6,11 +6,11 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: .circleci/install-dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
+      - run: .circleci/install-dependencies
       - run: npm install
       - save_cache:
           paths:
