@@ -8,9 +8,17 @@
   <span class="test1">test</span>
   <script src="bind-click.js"></script>
   <script>
-    bindClick('span',function (e) {
+    bindClick('.test1',function (e) {
       e.target.classList.add('clicked')
     })
+
+    bindClick('.test2',function (e) {
+      e.target.classList.add('clicked')
+    })
+
+    var test2 = document.createElement('span')
+    test2.classList.add('test2')
+    document.querySelector('body').appendChild(test2)
   </script>
 </body>
 </html>

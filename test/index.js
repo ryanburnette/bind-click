@@ -72,9 +72,15 @@ describe('bindClick()',function () {
     expect(list).to.include('clicked')
   })
 
-  // context('elements that are created later',function () {
-  //   it('works', async function () {
-  //     let span = 
-  //   })
-  // })
+  context('elements that are created later',function () {
+    it('works', async function () {
+      let span = await page.$('.test2')
+      await span.click()
+      let list = await page.evaluate('document.querySelector(".test1").classList')
+      list = _.map(list,function (v,k) {
+        return v
+      })
+      expect(list).to.include('clicked')
+    })
+  })
 })
