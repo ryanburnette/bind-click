@@ -24,7 +24,7 @@ after (function () {
   browser.close()
   global.browser = globalVariables.browser
   global.expect = globalVariables.expect
-  server.kill('SIGINT')
+  server.kill()
 })
 
 describe('sanity check',function () {
