@@ -6,26 +6,27 @@ const _ = require('lodash')
 const describe = mocha.describe
 const expect = chai.expect
 const globalVariables = _.pick(global, ['browser', 'expect'])
+const cp = require('child_process')
 
-before (function (done) {
+let server
+before (async function () {
   global.expect = expect
-
-  puppeteer
-    .launch({
-      headless: true,
-      slowMo: 100,
-      timeout: 10000
-    })
-    .then(function (browser) {
-      global.browser = browser
-      done()
-    })
+  global.browser = await puppeteer.launch({
+    headless: true,
+    slowMo: 100,
+    timeout: 10000
+  })
+  server = cp.spawn('npm',['run','server'])
+  await timeout(function () {
+    console.log('done waiting for server to start')
+  },2000)
 })
 
 after (function () {
   browser.close()
   global.browser = globalVariables.browser
   global.expect = globalVariables.expect
+  server.kill('SIGINT')
 })
 
 describe('sanity check',function () {
@@ -100,3 +101,12 @@ describe('bindClick()',function () {
     })
   })
 })
+
+function timeout(cb,ms) {
+  return new Promise(function (resolve) {
+    setTimeout(cb,ms)
+    setTimeout(function () {
+      resolve()
+    },ms)
+  })
+}
