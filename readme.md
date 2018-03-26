@@ -4,6 +4,7 @@ A function to bind the click event with a couple of common problems worked out.
 
 ## Problems Solved
 
+- Adds a listener to the body and checks for a matching target.
 - Fails gracefully if no elements are selected by the query.
 - Solves click issue on some older iOS touch screens. https://bugs.jquery.com/ticket/5677
 
@@ -30,5 +31,8 @@ The function to call when the event fires. Receives the event as an argument.
 
 ## Requirements
 
-- Requires the [Modernizr touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with `setClasses` enabled.
-- Requires [`NodeList.prototype.forEach()`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach)
+- Requires the [Modernizr touchevents
+  detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with
+  `setClasses` enabled.
+- Requires
+  [`NodeList.prototype.forEach()`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach)

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Puppeteer Mocha</title>
+</head>
+<body>
+  <h1>Page Title</h1>
+  <span class="test1">test</span>
+  <script src="bind-click.js"></script>
+  <script>
+    bindClick('span',function (e) {
+      e.target.classList.add('clicked')
+    })
+  </script>
+</body>
+</html>
