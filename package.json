@@ -1,6 +1,6 @@
 {
   "name": "bind-click",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Bind the click event with a couple of common problems already solved.",
   "main": "dist/bind-click.js",
   "author": "Ryan Burnette",
@@ -12,7 +12,8 @@
   "homepage": "https://github.com/ryanburnette/bind-click",
   "dependencies": {
     "add-css": "^1.0.0",
-    "live-dom": "^1.6.9"
+    "live-dom": "^1.6.9",
+    "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

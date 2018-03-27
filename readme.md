@@ -5,9 +5,10 @@ A function to bind the click event with a couple of common problems worked out.
 ## Problems Solved
 
 - Adds a listener to the body and checks for a matching target.
-- Pass in a Node, NodeList, or selector string.
+- Pass in a Node, NodeList, or a string to select the target element.
+- Fails gracefully if no elements are selected.
 - Implements [live-dom][1] when a string selector is passed in.
-- Fails gracefully if no elements are selected by the query.
+- Listens for `click` and `touchstart` events separately without additional event triggering.
 - Solves click issue on some older iOS touch screens. https://bugs.jquery.com/ticket/5677
 
 What other issues could be solved by this library? Please contribute.
