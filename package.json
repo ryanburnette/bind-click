@@ -1,6 +1,6 @@
 {
   "name": "bind-click",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Bind the click event with a couple of common problems already solved.",
   "main": "dist/bind-click.js",
   "author": "Ryan Burnette",
