@@ -12,7 +12,7 @@ let server
 before (async function () {
   global.expect = expect
   global.browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     slowMo: 100,
     timeout: 10000,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
