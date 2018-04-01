@@ -1,6 +1,5 @@
 const css = require('add-css')
 const live = require('live-dom')
-const throttle = require('lodash.throttle')
 
 function bindClick(select,callback,events=['click','touchstart']) {
   _bindClick(select,callback,events)
@@ -20,9 +19,10 @@ function _bindClick(select,callback,events) {
 
 function _bindHandlers(select,callback,events) {
   _addClasses(select)
+  let throttledCallback = _throttle(callback,150)
   events.forEach(eventName => {
     _select(select).forEach(el => {
-      el.addEventListener(eventName,callback)
+      el.addEventListener(eventName,throttledCallback)
     })
   })
 }
@@ -72,6 +72,19 @@ function _addClasses(select) {
   }
   if ( _isNodeList(select) ) {
     return select.forEach(el => _addClasses(el))
+  }
+}
+
+function _throttle(callback,delay) {
+  let lock = false
+  return function () {
+    if ( !lock ) {
+      callback.apply(null,arguments)
+      lock = true
+      setTimeout(function () {
+        lock = false
+      },delay)
+    }
   }
 }
 

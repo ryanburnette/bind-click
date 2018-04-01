@@ -120,3 +120,21 @@ it('bubbles',async function () {
   list = _.map(list,(v,k) => v)
   expect(list).to.include('clicked')
 })
+
+it('when there is both a mouse and touch event, the callback only fires one time',async function () {
+  await page.evaluate(`
+    var item = document.querySelector('.item')
+    bindClick(item,function (e) {
+      item.classList.add(e.type)
+    })
+  `)
+  await page.evaluate(`
+    var item = document.querySelector('.item')
+    fireEvent(item,'click')
+    fireEvent(item,'touchstart')
+  `)
+  let list = await page.evaluate(`document.querySelector('.item').classList`)
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('click')
+  expect(list).to.not.include('touchstart')
+})

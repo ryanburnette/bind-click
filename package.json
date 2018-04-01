@@ -12,8 +12,7 @@
   "homepage": "https://github.com/ryanburnette/bind-click",
   "dependencies": {
     "add-css": "^1.0.0",
-    "live-dom": "^1.6.9",
-    "lodash.throttle": "^4.1.1"
+    "live-dom": "^1.6.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
