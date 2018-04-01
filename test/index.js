@@ -115,6 +115,16 @@ describe('bindClick()',function () {
   //   let span = await page.$('.test-of-class')
   //   expect(span.classList).to.include('x-bind-click')
   // })
+  it('lets events propagate',async function () {
+    let span = await page.$('.test60')
+    let span_child = await page.$('.test61')
+    await span_child.click()
+    let list = await page.evaluate('document.querySelector(".test60").classList')
+    list = _.map(list,function (v,k) {
+      return v
+    })
+    expect(list).to.include('clicked')
+  })
 })
 
 function timeout(cb,ms) {
