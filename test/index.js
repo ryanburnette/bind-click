@@ -9,6 +9,7 @@ const globalVariables = _.pick(global, ['browser', 'expect'])
 const cp = require('child_process')
 
 let server
+let page
 before (async function () {
   global.expect = expect
   global.browser = await puppeteer.launch({
@@ -18,9 +19,12 @@ before (async function () {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
   server = await cp.spawn('npm',['run','server'])
+  page = await browser.newPage()
+  await page.goto('http://localhost:8080')
 })
 
-after (function () {
+after (async function () {
+  await page.close()
   browser.close()
   global.browser = globalVariables.browser
   global.expect = globalVariables.expect
@@ -28,84 +32,109 @@ after (function () {
   process.exit()
 })
 
-describe('sanity check',function () {
-  it('should work', function (done) {
-    browser
-      .version()
-      .then(function (version) {
-        expect(version).to.include('Chrome')
-        done()
-      })
-  })
+it('is a working test environment',async function () {
+  let version = await browser.version()
+  expect(version).to.include('Chrome')
 })
 
-describe('bindClick()',function () {
-  let page
+it('bindClick exists in the test environment', async function () {
+  let f = await page.evaluate('typeof bindClick')
+  expect(f).to.eq('function')
+})
 
-  before(async function () {
-    page = await browser.newPage()
-    await page.goto('http://localhost:8080')
-  })
-
-  after(async function () {
-    await page.close()
-  })
-
-  context('sanity check',function () {
-    it('should have the correct page title', async function () {
-      expect(await page.title()).to.eql('Puppeteer Mocha')
+context('select',function () {
+  context('a Node',function () {
+    it('invokes the callback on click',async function () {
+      let foo = await page.evaluate(`
+        var foo = false
+        bindClick(document.body,function () {
+          foo = true
+        })
+        document.body.click()
+        foo
+      `)
+      expect(foo).to.eq(true)
     })
   })
-
-  context('node',function () {
-    it('invokes the callback when the element is clicked', async function () {
-      let span = await page.$('.test1')
-      await span.click()
-      let list = await page.evaluate('document.querySelector(".test1").classList')
-      list = _.map(list,function (v,k) {
-        return v
-      })
-      expect(list).to.include('clicked')
+  context('a NodeList',function () {
+    it('invokes the callback on click',async function () {
+      let bar = await page.evaluate(`
+        var elements = document.querySelectorAll('.item')
+        var bar = false
+        bindClick(elements,function () {
+          bar = true
+        })
+        elements[0].click()
+        bar
+      `)
+      expect(bar).to.eq(true)
     })
   })
-
-  context('nodelist',function () {
-    it('invokes the callback when the elements are clicked', async function () {
-      let span1 = await page.$('.test10')
-      let span2 = await page.$('.test11')
-      await span1.click()
-      await span2.click()
-      let list1 = await page.evaluate('document.querySelector(".test10").classList')
-      let list2 = await page.evaluate('document.querySelector(".test11").classList')
-      list1 = _.map(list1,function (v,k) {
-        return v
-      })
-      list2 = _.map(list2,function (v,k) {
-        return v
-      })
-      expect(list1).to.include('clicked')
-      expect(list2).to.include('clicked')
-    })
-  })
-
-  context('string/live',function () {
-    it('works', async function () {
-      let span = await page.$('.test2')
-      await span.click()
-      let list = await page.evaluate('document.querySelector(".test1").classList')
-      list = _.map(list,function (v,k) {
-        return v
-      })
-      expect(list).to.include('clicked')
+  context('a string',function () {
+    it('invokes the callback on click',async function () {
+      let baz = await page.evaluate(`
+        var baz = false
+        bindClick('.item',function () {
+          baz = true
+        })
+        document.querySelector('.item').click()
+        baz
+      `)
+      expect(baz).to.eq(true)
     })
   })
 })
 
-function timeout(cb,ms) {
-  return new Promise(function (resolve) {
-    setTimeout(cb,ms)
-    setTimeout(function () {
-      resolve()
-    },ms)
-  })
-}
+it('adds .x-bind-click class to elements',async function () {
+  await page.evaluate("bindClick('.item',function () {})")
+  let list = await page.evaluate("document.querySelector('.item').classList")
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('x-bind-click')
+})
+
+it('works on elements that are created later',async function () {
+  await page.evaluate(`
+    bindClick('.live-item',function (e) {
+      e.target.classList.add('clicked')
+    })
+
+    var el = document.createElement('span')
+    el.classList.add('live-item')
+    document.body.appendChild(el)
+  `)
+  await page.evaluate("document.querySelector('.live-item').click()")
+  let list = await page.evaluate("document.querySelector('.live-item').classList")
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('clicked')
+})
+
+it('bubbles',async function () {
+  await page.evaluate(`
+    var container = document.querySelector('.container')
+    bindClick(container,function () {
+      container.classList.add('clicked')
+    })
+  `)
+  await page.evaluate(`document.querySelector('.item').click()`)
+  let list = await page.evaluate("document.querySelector('.container').classList")
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('clicked')
+})
+
+it('when there is both a mouse and touch event, the callback only fires one time',async function () {
+  await page.evaluate(`
+    var item = document.querySelector('.item')
+    bindClick(item,function (e) {
+      item.classList.add(e.type)
+    })
+  `)
+  await page.evaluate(`
+    var item = document.querySelector('.item')
+    fireEvent(item,'click')
+    fireEvent(item,'touchstart')
+  `)
+  let list = await page.evaluate(`document.querySelector('.item').classList`)
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('click')
+  expect(list).to.not.include('touchstart')
+})
