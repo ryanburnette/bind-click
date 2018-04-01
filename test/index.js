@@ -107,3 +107,16 @@ it('works on elements that are created later',async function () {
   list = _.map(list,(v,k) => v)
   expect(list).to.include('clicked')
 })
+
+it('bubbles',async function () {
+  await page.evaluate(`
+    var container = document.querySelector('.container')
+    bindClick(container,function () {
+      container.classList.add('clicked')
+    })
+  `)
+  await page.evaluate(`document.querySelector('.item').click()`)
+  let list = await page.evaluate("document.querySelector('.container').classList")
+  list = _.map(list,(v,k) => v)
+  expect(list).to.include('clicked')
+})
