@@ -110,20 +110,14 @@ describe('bindClick()',function () {
     })
   })
 
-  // it('adds .x-bind-click class to elements',async function () {
-  //   await page.evaluate('bindClick(document.querySelector(".test-of-class"),function () {})')
-  //   let span = await page.$('.test-of-class')
-  //   expect(span.classList).to.include('x-bind-click')
-  // })
-  it('lets events propagate',async function () {
-    let span = await page.$('.test60')
-    let span_child = await page.$('.test61')
-    await span_child.click()
-    let list = await page.evaluate('document.querySelector(".test60").classList')
+  it('adds .x-bind-click class to elements',async function () {
+    await page.evaluate('bindClick(document.querySelector(".test-of-class"),function () {})')
+    let span = await page.$('.test-of-class')
+    let list = await page.evaluate('document.querySelector(".test-of-class").classList')
     list = _.map(list,function (v,k) {
       return v
     })
-    expect(list).to.include('clicked')
+    expect(list).to.include('x-bind-click')
   })
 })
 

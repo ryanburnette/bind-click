@@ -10,9 +10,6 @@
   <span class="nodelist-test test11">test</span>
   <span class="test-of-class">test</span>
   <span class="test50">test</span>
-  <span class="test60">
-    <span class="test61">test</span>
-  </span>
   <script src="bind-click.dist.js"></script>
   <script>
     var test1 = document.querySelector('.test1')
@@ -35,12 +32,6 @@
       test2.innerHTML = 'test'
       document.querySelector('body').appendChild(test2)
     },500)
-
-    bindClick('.test-of-class',function (e) {})
-
-    bindClick('.test60',function (e) {
-      e.target.classLIst.add('clicked')
-    })
   </script>
 </body>
 </html>
