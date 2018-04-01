@@ -92,6 +92,16 @@ describe('bindClick()',function () {
     it('works', async function () {
       let span = await page.$('.test2')
       await span.click()
+      let list = await page.evaluate('document.querySelector(".test2").classList')
+      list = _.map(list,function (v,k) {
+        return v
+      })
+      expect(list).to.include('clicked')
+    })
+
+    it('works on elements that already exist', async function () {
+      let span = await page.$('.test50')
+      await span.click()
       let list = await page.evaluate('document.querySelector(".test1").classList')
       list = _.map(list,function (v,k) {
         return v
@@ -99,6 +109,12 @@ describe('bindClick()',function () {
       expect(list).to.include('clicked')
     })
   })
+
+  // it('adds .x-bind-click class to elements',async function () {
+  //   await page.evaluate('bindClick(document.querySelector(".test-of-class"),function () {})')
+  //   let span = await page.$('.test-of-class')
+  //   expect(span.classList).to.include('x-bind-click')
+  // })
 })
 
 function timeout(cb,ms) {

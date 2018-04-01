@@ -8,7 +8,8 @@
   <span class="test1">test</span>
   <span class="nodelist-test test10">test</span>
   <span class="nodelist-test test11">test</span>
-  <script src="bind-click.js"></script>
+  <span class="test-of-class">test</span>
+  <script src="bind-click.dist.js"></script>
   <script>
     var test1 = document.querySelector('.test1')
     bindClick(test1,function (e) {
@@ -27,8 +28,11 @@
     setTimeout(function () {
       var test2 = document.createElement('span')
       test2.classList.add('test2')
+      test2.innerHTML = 'test'
       document.querySelector('body').appendChild(test2)
     },500)
+
+    bindClick('.test-of-class',function (e) {})
   </script>
 </body>
 </html>

@@ -3,12 +3,16 @@ const live = require('live-dom')
 const throttle = require('lodash.throttle')
 
 function bindClick(select,callback,events=['click','touchstart']) {
-  if ( isNodeish(select) ) {
-    return _bindHandlers(select,callback,events)
+  _bindClick(select,callback,events)
+}
+
+function _bindClick(select,callback,events) {
+  if ( typeof select === 'string' ) {
+    return live(select,el => _bindClick(el,callback,events))
   }
 
-  if ( typeof select === 'string' ) {
-    return live(select,el => bindClick(el,select))
+  if ( _isNodeish(select) ) {
+    return _bindHandlers(select,callback,events)
   }
 
   throw new Error('select must be a query string, Node, or NodeList')
@@ -16,18 +20,31 @@ function bindClick(select,callback,events=['click','touchstart']) {
 
 function _bindHandlers(select,callback,events) {
   _addClasses(select)
-  return events.forEach(eventName => select.addEventListener(eventName,callback))
+  events.forEach(eventName => {
+    _select(select).forEach(el => {
+      el.addEventListener(eventName,callback)
+    })
+  })
 }
 
 function _select(select) {
+  let arr = []
+  let allowable = false
   if ( _isNode(select) ) {
-    return [select]
+    allowable = true
+    arr.push(select)
   }
   if ( _isNodeList(select) ) {
-    return [...select]
+    allowable = true
+    select.forEach(el => arr.push(el))
   }
 
-  throw new Error('select must be a Node or a NodeList')
+  if ( allowable ) {
+    return arr
+  }
+  else {
+    throw new Error('select must be a Node or a NodeList')
+  }
 }
 
 function _isNode(select) {
@@ -45,7 +62,7 @@ function _isNodeish(select) {
 let _addCSSlock = false
 function _addCSS() {
   if ( !_addCSSlock ) {
-    return css('.touchevents .x-bind-click { cursor: pointer }')
+    css('.touchevents .x-bind-click { cursor: pointer }')
   }
 }
 
