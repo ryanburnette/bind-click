@@ -1,2 +1,1 @@
-dist/
-test/bind-click.js
+*.dist.js
