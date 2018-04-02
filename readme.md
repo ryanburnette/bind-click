@@ -15,12 +15,25 @@ address.
 
 ```javascript
 const click = require('bind-click')
-click('.button',e => console.log(e))
+
+let select = '.button' // string, Node, or NodeList
+
+function handler(e) { // receives the event
+  console.log(e)
+}
+
+const events = ['click','touchstart'] // defaults
+
+click(select,handler,events)
 ```
 
 ## Requirements
 
 - Requires the [Modernizr touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with `setClasses` enabled.
 - Requires [`NodeList.prototype.forEach()`](https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach) to be present or polyfilled
+
+## TODO
+
+- Event delegation
 
 [1]: https://github.com/kiltjs/live-dom
