@@ -1,8 +1,8 @@
 {
   "name": "bind-click",
-  "version": "1.5.1",
-  "description": "Bind the click event with a couple of common problems already solved.",
-  "main": "bind-click.dist.js",
+  "version": "2.0.0",
+  "description": "Bind an event to the click of an element.",
+  "main": "index.js",
   "author": "Ryan Burnette",
   "license": "ISC",
   "repository": {
@@ -11,25 +11,9 @@
   },
   "homepage": "https://github.com/ryanburnette/bind-click",
   "dependencies": {
-    "add-css": "^1.0.0",
-    "live-dom": "^1.6.9"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
-    "chai": "^4.1.2",
-    "http-server": "^0.11.1",
-    "lodash": "^4.17.5",
-    "mocha": "^5.0.5",
-    "nodemon": "^1.14",
-    "puppeteer": "^1.2.0",
-    "webpack": "^3"
   },
   "scripts": {
-    "prepare": "node_modules/.bin/webpack",
-    "test:prepare": "npm run prepare && cp bind-click.dist.js test/",
-    "test": "mocha test/index.js --timeout 10000",
-    "server": "http-server test/"
   }
 }
