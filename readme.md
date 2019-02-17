@@ -9,7 +9,7 @@ to address.
 - Fails gracefully if no elements are selected
 - If a string selector is passed in, the DOM is queried each time giving a "jQuery live"-ish behavior
 - Default event is click
-- Solves [click issue on some older iOS touch screens](https://bugs.jquery.com/ticket/5677) 
+- Solves [click issue on some older iOS touch screens][1]
 
 ## Basic Usage
 
@@ -21,4 +21,6 @@ bindClick(document.querySelectorAll('.button'),function (e) {
 
 ## Requirements
 
-- Requires the [Modernizr touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) with `setClasses` enabled.
+- Solving [this issue][1] requires the [Modernizr with the touchevents detect](https://modernizr.com/download?touchevents-setclasses&q=touchev) and `setClasses` enabled
+
+[1]: https://bugs.jquery.com/ticket/5677

@@ -19,15 +19,29 @@
       lockCSS = true;
     }
 
+    if (typeof elements === 'string') {
+      addClickFixClasses(document.querySelectorAll(elements));
+    }
+
+    if (Node.prototype.isPrototypeOf(elements)) {
+      addClickFixClasses([elements]);
+    }
+
+    if (NodeList.prototype.isPrototypeOf(elements)) {
+      addClickFixClasses(elements);
+    }
+
     return document.body.addEventListener(events,function (e) {
       var _elements;
 
       if (typeof elements === 'string') {
         _elements = document.querySelectorAll(elements);
+        addClickFixClasses(_elements);
       }
       else {
         _elements = elements;
       }
+
 
       if (Node.prototype.isPrototypeOf(_elements)) {
         _bindClick(_elements,callback,e);
@@ -83,6 +97,23 @@
     }
     else {
       el.className += ' ' + className;
+    }
+  }
+
+  function addClickFixClasses(els) {
+    [].forEach.call(els,function (el) {
+      if (!hasClass(el,'x-bind-click')) {
+        addClass(el,'x-bind-click');
+      }
+    });
+  }
+
+  function hasClass(el,className) {
+    if (el.classList) {
+      return el.classList.contains(className);
+    }
+    else {
+      return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     }
   }
   
